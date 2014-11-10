@@ -24,7 +24,7 @@ int main() {
     const int message_len = strlen((char*) message);
 
     /* create a random seed, and a keypair out of that seed */
-    ed25519_create_seed(seed);
+    
     ed25519_create_keypair(public_key, private_key, seed);
 
     /* create signature on the message with the keypair */
@@ -38,7 +38,6 @@ int main() {
     }
 
     /* create scalar and add it to the keypair */
-    ed25519_create_seed(scalar);
     ed25519_add_scalar(public_key, private_key, scalar);
 
     /* create signature with the new keypair */
@@ -60,9 +59,9 @@ int main() {
     }
 
     /* generate two keypairs for testing key exchange */
-    ed25519_create_seed(seed);
+    
     ed25519_create_keypair(public_key, private_key, seed);
-    ed25519_create_seed(seed);
+    
     ed25519_create_keypair(other_public_key, other_private_key, seed);
 
     /* create two shared secrets - from both perspectives - and check if they're equal */
@@ -80,13 +79,7 @@ int main() {
         printf("key exchange was correct\n");
     }
 
-    /* test performance */
-    printf("testing seed generation performance: ");
-    start = clock();
-    for (i = 0; i < 10000; ++i) {
-        ed25519_create_seed(seed);
-    }
-    end = clock();
+   
 
     printf("%fus per seed\n", ((double) ((end - start) * 1000)) / CLOCKS_PER_SEC / i * 1000);
 
